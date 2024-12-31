@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-img {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-img img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover; /* Ensures the image fits properly */
+            border: 3px solid #ccc; /* Optional border around the picture */
+        }
+        .profile-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .profile-name .verified-badge {
+            margin-left: 10px;
+            width: 20px;
+            height: 20px;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        /* Different Colors for Each Box */
+        #name {
+            background-color: #FFD700; /* Gold */
+        }
+        #bio {
+            background-color: #FFB6C1; /* Light Pink */
+        }
+        #age {
+            background-color: #98FB98; /* PaleGreen */
+        }
+        #work {
+            background-color: #ADD8E6; /* LightBlue */
+        }
+        #email {
+            background-color: #FFA07A; /* LightSalmon */
+        }
+        #phone {
+            background-color: #E6E6FA; /* Lavender */
+        }
+        #whatsapp {
+            background-color: #F0E68C; /* Khaki */
+        }
+        #location {
+            background-color: #D8BFD8; /* Thistle */
+        }
+        #password {
+            background-color: #FFC0CB; /* Pink */
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>My Profile</h2>
+        <div class="profile-img">
+            <img id="profilePicture" src="default-profile.png" alt="Profile Picture">
+            <div class="profile-name">
+                <span id="displayName">User Name</span>
+                <!-- Updated verification badge image URL -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Yes_Check_Circle.svg" alt="Verified" class="verified-badge">
+            </div>
+        </div>
+        <input type="file" id="uploadImage" accept="image/*">
+        
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Enter your name">
+        
+        <label for="bio">Bio</label>
+        <textarea id="bio" placeholder="Tell something about yourself"></textarea>
+        
+        <label for="age">Age</label>
+        <input type="number" id="age" placeholder="Enter your age">
+        
+        <label for="work">Work</label>
+        <input type="text" id="work" placeholder="Enter your profession">
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
+        
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="Enter your phone number">
+        
+        <label for="whatsapp">WhatsApp Number</label>
+        <input type="tel" id="whatsapp" placeholder="Enter your WhatsApp number">
+        
+        <label for="location">Location</label>
+        <input type="text" id="location" placeholder="Enter your location">
+        
+        <label for="password">Change Password</label>
+        <input type="password" id="password" placeholder="Enter new password">
+        
+        <button onclick="saveProfile()">Save</button>
+    </div>
+
+    <script>
+        // Load data from localStorage
+        window.onload = function() {
+            document.getElementById('name').value = localStorage.getItem('name') || '';
+            document.getElementById('bio').value = localStorage.getItem('bio') || '';
+            document.getElementById('age').value = localStorage.getItem('age') || '';
+            document.getElementById('work').value = localStorage.getItem('work') || '';
+            document.getElementById('email').value = localStorage.getItem('email') || '';
+            document.getElementById('phone').value = localStorage.getItem('phone') || '';
+            document.getElementById('whatsapp').value = localStorage.getItem('whatsapp') || '';
+            document.getElementById('location').value = localStorage.getItem('location') || '';
+            const profilePic = localStorage.getItem('profilePicture');
+            if (profilePic) {
+                document.getElementById('profilePicture').src = profilePic;
+            }
+            const displayName = localStorage.getItem('name');
+            if (displayName) {
+                document.getElementById('displayName').innerText = displayName;
+            }
+        }
+
+        // Save data to localStorage
+        function saveProfile() {
+            localStorage.setItem('name', document.getElementById('name').value);
+            localStorage.setItem('bio', document.getElementById('bio').value);
+            localStorage.setItem('age', document.getElementById('age').value);
+            localStorage.setItem('work', document.getElementById('work').value);
+            localStorage.setItem('email', document.getElementById('email').value);
+            localStorage.setItem('phone', document.getElementById('phone').value);
+            localStorage.setItem('whatsapp', document.getElementById('whatsapp').value);
+            localStorage.setItem('location', document.getElementById('location').value);
+            alert("Profile saved successfully!");
+
+            // Update the displayed name under the profile picture
+            document.getElementById('displayName').innerText = document.getElementById('name').value;
+        }
+
+        // Profile picture upload and save
+        document.getElementById('uploadImage').addEventListener('change', function(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const profilePic = reader.result;
+                document.getElementById('profilePicture').src = profilePic;
+                localStorage.setItem('profilePicture', profilePic);
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        });
+    </script>
+
+</body>
+</html>
